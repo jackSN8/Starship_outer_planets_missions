@@ -15,6 +15,11 @@ class gene():
         self.first_date = None
         self.last_date = None
         
+        #evolution params
+        self.date_mutation_amp=5#sd for gaussian mutation of dates
+        self.rp_mutation_amp=500#sd for gaussian mutation of periapsis distances
+        
+        
     def generate_gene_randomly(self,date_range):
         self.first_date = np.random.uniform(0,date_range)
         leading_date = self.first_date
@@ -34,16 +39,16 @@ class gene():
 
     def make_baby_fixed_bodies(self,partner):
             child_gene=gene(self.reference, self.allowed_bodies, self.encounters)
-            # Average the first_date between parents
-            child_gene.first_date = (self.first_date + partner.first_date) / 2
+            # Average the first_date between parents plus mutation
+            child_gene.first_date = (self.first_date + partner.first_date) / 2 + np.random.normal(0,self.date_mutation_amp)
             leading_date=child_gene.first_date
             child_gene.reference=self.reference
             child_gene.bodies=self.bodies.copy()  # take parent bodies as they don't change
             # Now merge the other genes by averaging
             for i in range(0,self.encounters):
                 # Average epochs and rps between parents
-                child_gene.epochs.append((self.epochs[i] + partner.epochs[i]) / 2)
-                child_gene.rps.append((self.rps[i] + partner.rps[i]) / 2)
+                child_gene.epochs.append((self.epochs[i] + partner.epochs[i]) / 2 + np.random.normal(0,self.date_mutation_amp))
+                child_gene.rps.append((self.rps[i] + partner.rps[i]) / 2 + np.random.normal(0,self.rp_mutation_amp))
                 # For boolean progade, randomly pick from one parent
                 child_gene.progades.append(np.random.choice([self.progades[i], partner.progades[i]]))
             # Average the last_date
