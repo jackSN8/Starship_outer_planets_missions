@@ -22,6 +22,7 @@ class gene():
             # print(self.allowed_bodies)
             body = np.random.choice(self.allowed_bodies)
             epoch = np.random.uniform(leading_date,date_range)
+            leading_date=epoch
             rp = np.random.uniform(10,10000)
             progade = np.random.choice([False,True])
             self.bodies.append(body)
@@ -32,7 +33,6 @@ class gene():
         
 
     def make_baby_fixed_bodies(self,partner):
-            parents = [self,partner]
             child_gene=gene(self.reference, self.allowed_bodies, self.encounters)
             # Average the first_date between parents
             child_gene.first_date = (self.first_date + partner.first_date) / 2
