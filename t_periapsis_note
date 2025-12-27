@@ -1,0 +1,3 @@
+The poliastro t periapsis method seems to sometimes have a sign issue; the method should return time since last perifocal passage; but it sometimes returns time till next perifocal passage, unfortunately with a negative sign.
+Its not immediately obvious how to deal with this; the method uses a reasonably accurate integrator; I suspect it has trouble with elliptical orbits and is perhaps classifying my orbit as hyperbolic and thus there is no defined 
+time till periapsis.
