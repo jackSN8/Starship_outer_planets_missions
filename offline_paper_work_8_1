@@ -1,0 +1,199 @@
+\documentclass[10pt,leqno]{amsart}
+\usepackage{graphicx}
+\baselineskip=16pt
+
+\usepackage{indentfirst,csquotes}
+
+\topmargin= .5cm
+\textheight= 20cm
+\textwidth= 32cc
+\baselineskip=16pt
+
+\evensidemargin= .9cm
+\oddsidemargin= .9cm
+
+\usepackage{amssymb,amsthm,amsmath}
+\usepackage{xcolor,paralist,hyperref,titlesec,fancyhdr,etoolbox}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\numberwithin{equation}{section}   % if you want (1.1), (1.2) etc
+\numberwithin{figure}{section}     % Figure 1.1, 1.2 etc
+\numberwithin{table}{section}
+% \newtheorem{theorem}{Theorem}[section]
+\setcounter{secnumdepth}{0}
+
+
+
+\titleformat{\section}[display]
+  {\normalfont\huge\bfseries\centering}
+  {\thesection}
+  {10pt}
+  {\Large}
+
+
+\hypersetup{ colorlinks=true, linkcolor=black, filecolor=black, urlcolor=black }
+\def\proof{\noindent {\it Proof. $\, $}}
+\def\endproof{\hfill $\Box$ \vskip 5 pt }
+
+\usepackage{lipsum}
+\begin{document}
+
+\title{Starship as an enabler for faster, more ambitious missions to Europa} %%%%%%%%%%%%
+\author[Jack Kingdon]{Jack Kingdon}
+\date{\today}
+\address{Address}
+\email{example@mail.com}
+\maketitle
+
+\begin{abstract}
+Europa, the icy moon of Jupiter (isnt ganymede icy?), is a prime target in the search for extraterrestrial life.
+It is thought to have a deep salty ocean under a thick layer of ice, with many of the conditions that are thought to have led to the emergence of life on Earth. There have been many plans() to land small scientific payloads on the surface of Europa. The long transit times and extremely low science payloads have stunted the development and funding of these proposals. More advanced proposals for the exploration of Europa, such as cyrobots have not been developed extensively  as the possibility of landing heavy machinery on the surface of Europa has been considered impossible in the near term. The development of the Starship rocket enables vastly higher payloads to be delivered to Europa, faster and cheaper than before. This paper outlines the possibility of Starship delivering decatonne scientific payloads directly to the surface of Europa 2.5 years after launch from Earth. 
+\end{abstract}
+
+\section{Introduction}
+\subsection{History and motivation}
+Europa, the second Moon of Jupiter has been investigated remotely by the Pioneer missions, the Voyager missions Galileo and will be further remotely explored by the Europa Clipper. There has, however, been no mission to the surface, nor is one under development by NASA. This is partially because 
+
+Historical planning for missions to Europa has been heavily constrained by the low mass and lengthy transit times required for spacecraft to reach Jovian space on historical expendable rockets.
+
+With the advent of reusable super heavy lift launch vehicles, it is feasible to send much heavier payloads on much faster trajectories. 
+
+
+
+
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.15}
+
+\begin{tabularx}{\linewidth}{@{}
+>{\raggedright\arraybackslash}p{0.30\linewidth}
+>{\raggedright\arraybackslash}p{0.22\linewidth}
+>{\raggedright\arraybackslash}X
+>{\centering\arraybackslash}p{0.10\linewidth}
+@{}}
+\toprule
+\textbf{Name} & \textbf{Time to reach Europa} & \textbf{Science payload to the surface} & \textbf{Mass (kg)} \\
+\midrule
+
+Europa Clipper (NASA; flyby/orbiter) &
+$\approx 5.5$ yr to Jupiter system &
+None (remote sensing of ice/ocean, composition, possible plumes) &
+0 \\
+
+JUICE (ESA; Jupiter system orbiter) &
+$\approx 8.3$ yr to Jupiter system; Europa flyby phase later &
+None (Europa flybys; magnetosphere + surface/ocean context) &
+0 \\
+
+Europa Lander (NASA flagship concept; pre-Phase A) &
+5--7 yr (trajectory trades; not baselined) &
+Cameras; microscopy; spectroscopy / mass spectrometry for chemistry; sample acquisition/handling; geophysics (e.g.\ seismometry) &
+42.5 \\
+
+CLEP (ESA concept: Clipper ESA Penetrator) &
+5--7 yr (concept-dependent) &
+Miniaturized in-situ subsurface investigations (penetrator forebody) + relay element on surface &
+$<3$ \\
+
+Europa penetrator (generic study-class penetrator) &
+5--8 yr (concept-dependent) &
+Primarily geophysics / physical properties (e.g.\ accelerometry/seismometry, thermal and ice-property sensors; very limited chemistry) &
+$\sim2$ \\
+
+Starship&
+2.5 yr  &
+Massive science equipment, drills, submarines&
+$\sim20000$ \\
+
+\bottomrule
+\end{tabularx}
+
+\caption{Representative Europa mission plans and concepts, emphasizing surface-delivered science payload where applicable.}
+\label{tab:europa_surface_missions}
+\end{table}
+
+\section{Trajectory}
+\subsection*{Earth to Jupiter}
+As is standard in preliminary Jupiter mission architecture studies1, we employ Lambert-arc solutions
+for Earth-Jupiter transfers, effectively treating the spacecraft’s heliocentric leg as a two-body problem (Sun +
+vehicle), and each hyperbolic planet exit/entry as a two-body problem (Earth/Jupiter + vehicle). Higher-order
+multi-body perturbations are negligible for initial DV (delta-velocity) estimates and remain consistent with the
+approach used historically by NASA. We iterated the poliastro Lambert-arc solver over 1-day timesteps in the
+2030s to look for the lowest ejection DV solutions in the Sun reference frame with a 650 day Earth to Jupiter time of flight. 
+650 days was arbritarily chosen to allow for the total mission time to total less than 2.5 years; we considered this a realistic target that remained a singificant improvement from state of the art Europa mission design. 
+
+
+
+\subsection*{Tisserand plots and Jovian tour design}
+The capture and start of Jovian orbit phasing followed a standard bi-elliptic capture burnset where Jupiter orbit insertion (JOI) is performed as close to Jupiter as is safe to maximize DV savings from the Oberth effect. To minimize time of flight, a baseline 1km/s JOI burn is performed, followed by a perijove raising maneuver that puts the Starship into an encounter Io. The set of Moons to flyby were calculated with a Tisserand plot. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{image.png}
+    \caption{Jovian Tisserand plot. Each numbered contour represents all the possible orbits the spacecraft could be put onto after gravity assists with a given body.}
+    \label{fig:placeholder}
+\end{figure}
+
+This graph shows the energy contours of trajectories that fly past the Galilean moons. Due to the conservation of energy, the spacecraft must leave the moon’s sphere of influence with as much velocity ($|V_{\infty}|$) relative to the moon as it had coming in. The magnitude, $|V_\infty|$, is unchanged by each flyby. It will however be rotated by an angle\cite{williams2012copernicus}:
+$$
+\theta=2asin\left(\frac{1}{V^2_{\infty}r_p/\mu+1}\right)
+$$
+Thus we can plot a set of orbits, each with the same $|V_\infty|$ relative to a moon at flyby as a contour of orbits with different perijoves and apijoves. Each assist rotates the $V_\infty$ vector to a new orbit along that contour. From this we can plot a path that brings the spacecraft to Europa with a low enough $V_\infty$ for an economical orbital insertion.
+
+The rapid orbit of Io means there are more elliptical orbits that Starship can enter into that are resonant with Io -- essentially the phasing is easier. The high density of Io means the gravity assist deflection angle is greater than Europa and Callisto; the spacecraft can move down the Tisserand plot curve faster.
+This led to trajectory design favoring flybys of Io lowering the apijove, followed by Ganymede perijove raising, and then final flybys of Europa and Ganymede for a Europa arrival with a$v_\infty$ less than 2km/s. The repeated flybys of a single moon are accomplished by requiring the flyby to send the Starship into an orbit a rational fraction of said Moon's orbital period -- the spacecraft enters into a resonance with the Moon. 
+
+We iterated over trajectories starting in the baseline capture orbit generated by the planetary lambert solver
+
+
+
+\section{Europa Landing}
+\subsection{Landing DV calculation}
+
+
+\subsection{Effects of Raptor exhaust on the surface of Europa}
+As the Starship comes in for terminal landing on the surface of Europa, the single remaining engine will eject a superheated plume of several thousand kelvin plasma onto the ice below. 
+
+\section{Other development not required in Starship Moon-Mars programme}
+The primary technical challenge once Starship has the required 
+
+
+\section{Implications}
+These results suggest that the SpaceX Starship is capable of delivering large payloads to the surface of Europa pending orbital refuelling capabilities, radiation hardening and sol
+
+
+\let\thefootnote\relax
+\footnotetext{MSC2020: Primary 00A05, Secondary 00A66.} %%%%%%%%%%
+
+\begin{thebibliography}{99}
+
+\bibitem{1} Spiegel, M. R. (1981). Theory and problems of Advanced Calculus: Si (metric) edition. McGraw-Hill. 
+% bibliography item
+\bibitem{williams2012copernicus}
+Williams, J., Senent, J. S., Ocampo, C., \& Lee, D. E. (2012).
+\textit{Recent Improvements to the Copernicus Trajectory Design and Optimization System}.
+(Preprint) AAS 12-236. NASA Technical Reports Server.
+\href{https://ntrs.nasa.gov/api/citations/20120001856/downloads/20120001856.pdf}{https://ntrs.nasa.gov/api/citations/20120001856/downloads/20120001856.pdf}
+
+% bibliography item
+\bibitem{europastudy2012lander}
+Europa Study Team. (2012).
+\textit{Europa Study 2012 Report: Europa Lander Mission}.
+Jet Propulsion Laboratory (JPL), JPL D-71990 (1 May 2012).
+\href{https://www.lpi.usra.edu/opag/europa2012/ES_2012_Report_D_Lander.pdf}{https://www.lpi.usra.edu/opag/europa2012/ES\_2012\_Report\_D\_Lander.pdf}
+
+
+\end{thebibliography}
+\end{document} 
