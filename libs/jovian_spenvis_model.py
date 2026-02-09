@@ -156,3 +156,69 @@ def electron_flux_gt2MeV(r_list_RJ, model,maxE=1):#maxE in Mev
 
     # flux at your radii
     return np.interp(r, r_centers, Je2, left=Je2[0], right=Je2[-1])
+
+def electron_spectrum_at_radius(model, r_RJ):
+    """
+    Return the electron spectrum at radius r_RJ using the precomputed SPENVIS-based model.
+
+    Parameters
+    ----------
+    model : dict
+        Output of build_fast_e_p_spectrum_lookup(...)
+    r_RJ : float or array-like
+        Radius (Jupiter radii)
+
+    Returns
+    -------
+    spec : dict
+        {
+          "r_RJ": r_RJ,
+          "E_thr_MeV": (nE,) thresholds from SPENVIS,
+          "Jint_gt_E": (nE,) or (N,nE) integral flux above thresholds,
+          "E_mid_MeV": (nE-1,) mid-bin energies,
+          "jd_MeV":    (nE-1,) or (N,nE-1) approx differential flux per MeV
+        }
+    """
+    # If you kept model["flux_at_radius"] from earlier, use it (it already interpolates).
+    if "flux_at_radius" in model:
+        out = model["flux_at_radius"](r_RJ)["e"]
+        return {
+            "r_RJ": r_RJ,
+            "E_thr_MeV": out["E_thr_MeV"],
+            "Jint_gt_E": out["Jint_gt_E"],
+            "E_mid_MeV": out["E_mid_MeV"],
+            "jd_MeV": out["jd_MeV"],
+        }
+
+    # Otherwise: do it directly from binned tables (still fast, fully vectorized in radius)
+    r_centers = model["r_centers"]
+    Ee = model["electron"]["E_thr_MeV"]
+    Je_b = model["electron"]["Jint_binned"]
+    Ee_mid = model["electron"]["E_mid_MeV"]
+    je_b = model["electron"]["jd_binned"]
+
+    r = np.atleast_1d(np.asarray(r_RJ, dtype=float))
+
+    # Interp each energy column in radius
+    J = np.empty((r.size, Je_b.shape[1]), dtype=float)
+    for j in range(Je_b.shape[1]):
+        col = Je_b[:, j]
+        J[:, j] = np.interp(r, r_centers, col, left=col[0], right=col[-1])
+
+    jd = np.empty((r.size, je_b.shape[1]), dtype=float)
+    for j in range(je_b.shape[1]):
+        col = je_b[:, j]
+        jd[:, j] = np.interp(r, r_centers, col, left=col[0], right=col[-1])
+
+    # If input was scalar, return 1D arrays
+    if np.isscalar(r_RJ):
+        J = J[0]
+        jd = jd[0]
+
+    return {
+        "r_RJ": r_RJ,
+        "E_thr_MeV": Ee,
+        "Jint_gt_E": J,
+        "E_mid_MeV": Ee_mid,
+        "jd_MeV": jd,
+    }
