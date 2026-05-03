@@ -1,0 +1,19 @@
+Block 3 DM estimates:
+
+As no information exists on the actual dry mass of the Block 3 Starship, we can back out bounds from other public information to reinforce estimates given by the DLR paper. We take the average ISP of the booster engines to be 330s and the upper stage to be 360s. We assume the ship reaches orbit with its main tanks completely empty, but the header tanks totally full; as we have third party photographs of the tanks, we know this corresponds to 30t of propellant. If we assume 100t of payload to a reference Starlink orbit (SpaceX's claimed payload for the Block 3 version of Starship), requiring 9.4km/s of DV, the dry mass of the ship thus becomes a function of two unknowns; the dry mass of the booster, and the propellant reserve in the booster left after staging. As
+
+
+
+other stuff to be done DM:
+
+
+
+
+
+
+
+
+Lightened ship:
+
+Estimating the dry mass of a Starship fitted for an interplanetary mission to Jupiter from the estimate of the Block 3 tanker ship dry mass requires estimating the mass of aerodynamic specific components that can be removed. The heat shield is composed of 33mm thick silica tiles attached via steel pins to an insulation mat. Independent estimates (?) suggest a density of 10.3kg/m^3 putting the total heatshield mass at 10t. The flaps 
+
